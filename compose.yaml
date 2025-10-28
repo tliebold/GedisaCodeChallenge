@@ -1,0 +1,28 @@
+version: '3'
+services:
+  laravel:
+    build:
+      context: docker/laravel
+    working_dir: /GedisaCodeChallenge
+    user: "1000:1000"
+    ports:
+      - "8001:8001"
+      - "8000:8000"
+    volumes:
+      - ./:/GedisaCodeChallenge
+#    tty: true
+    entrypoint: bash -c docker/laravel/entrypoint.sh
+    depends_on:
+      - db
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+    env_file:
+      - db.env
+volumes:
+  db-data:
