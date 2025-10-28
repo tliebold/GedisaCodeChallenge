@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use Illuminate\Validation\Rules\Password;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 trait PasswordValidationRules
 {
@@ -13,6 +14,7 @@ trait PasswordValidationRules
      */
     protected function passwordRules(): array
     {
+        Password::defaults(Password::min(4));
         return ['required', 'string', Password::default(), 'confirmed'];
     }
 }
