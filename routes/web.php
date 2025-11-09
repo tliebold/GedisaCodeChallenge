@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\MovieDetailComponent;
+use App\Livewire\MovieRatingsList;
 use App\Livewire\MovieSearch;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -16,6 +17,10 @@ Route::get('/', MovieSearch::class)
 Route::get('/movie-detail/{imdbID}', MovieDetailComponent::class)
     ->middleware(['auth', 'verified'])
     ->name('movie-detail');
+
+Route::get('/movie-ratings/list', MovieRatingsList::class)
+    ->middleware(['auth', 'verified'])
+    ->name('movie-ratings-list');
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

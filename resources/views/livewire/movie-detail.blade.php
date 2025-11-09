@@ -2,12 +2,35 @@
     <p class="text-xl font-bold">{{$this->movieDetail->getTitle()}}</p>
     <div class="mt-5">
         <div class="flex flex flex-row gap-5">
-            <img class="h-100 w-60" src="{{$this->movieDetail->getPoster()}}" alt="no poster"/>
+            <img class="max-h-100 max-w-70" src="{{$this->movieDetail->getPoster()}}" alt="no poster"/>
             <div>
                 <table>
                     <tr>
+                        <td colspan="2">
+                            <flux:icon.loading wire:loading/>
+                            <div wire:loading.remove x-data="{ hoveredStar: $wire.rating, starCount: 10 }" class="flex" @mouseleave="hoveredStar = $wire.rating" x-init="$watch('$wire.rating', () => hoveredStar = $wire.rating)">
+                                <template x-for="i in hoveredStar" :key="i">
+                                    <p
+                                        wire:loading.remove
+                                        class="text-yellow-500"
+                                        @mouseenter="hoveredStar = i"
+                                        wire:click="setRating(i); hoveredStar = i"
+                                        x-html="i"
+                                    />
+                                </template>
+                                <template x-for="i in starCount - hoveredStar">
+                                    <p
+                                        wire:loading.remove
+                                        @mouseenter="hoveredStar = Math.min(hoveredStar + i, 10)"
+                                        x-html="i"
+                                    />
+                                </template>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="pr-2">Release date:</td>
-                        <td>{{$this->movieDetail->getReleaseDate()->format('d.m.Y')}}</td>
+                        <td>{{$this->movieDetail->getReleaseDate()?->format('d.m.Y') ?? 'N/A'}}</td>
                     </tr>
                     <tr>
                         <td class="pr-2">Genre:</td>

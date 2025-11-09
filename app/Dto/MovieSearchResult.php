@@ -14,12 +14,22 @@ class MovieSearchResult
     public static function fromArray(array $arr): MovieSearchResult
     {
         $movieSearchResult = new MovieSearchResult();
-        $movieSearchResult->totalResults = $arr['totalResults'];
-        $movies = [];
-        foreach ($arr['Search'] as $movieArr) {
-            $movies[] = Movie::fromArray($movieArr);
+        if (isset($arr['totalResults'])) {
+            $movieSearchResult->totalResults = $arr['totalResults'];
+        } else {
+            $movieSearchResult->totalResults = 0;
         }
-        $movieSearchResult->setMovies($movies);
+
+        if (isset($arr['Search'])) {
+
+            $movies = [];
+            foreach ($arr['Search'] as $movieArr) {
+                $movies[] = Movie::fromArray($movieArr);
+            }
+            $movieSearchResult->setMovies($movies);
+        } else {
+            $movieSearchResult->setMovies([]);
+        }
 
         return $movieSearchResult;
     }

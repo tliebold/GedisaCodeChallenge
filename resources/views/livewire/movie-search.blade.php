@@ -1,5 +1,5 @@
 <div>
-    <p class="text-xl font-bold">Moviesearch</p>
+    <p class="text-xl font-bold">Movie search</p>
     <form class="mt-5" wire:submit="searchMovie">
         <flux:input wire:model="movieTitle"/>
     </form>
@@ -28,17 +28,27 @@
             <table class="table-auto mt-5 mb-5 w-full">
                 <tbody>
                     @foreach ($this->movieSearchResult->getMovies() as $movie)
-                        <tr class="transition-all duration-300 ease-in-out hover:bg-gray-900 mt-2 mb-2">
-                            <td class="pl-2 pr-0">
-                                <a href="{{route('movie-detail', ['imdbID' => $movie->getImdbID()])}}">
-                                    <img class="h-25 w-15" src="{{$movie->getPoster()}}" alt="no poster"/>
+                        <tr class="transition-all duration-300 ease-in-out hover:bg-gray-900">
+                            <td>
+                                <a class="h-30 block" href="{{route('movie-detail', ['imdbID' => $movie->getImdbID()])}}">
+                                    <div class="w-20">
+                                        <img class="h-30 object-cover" src="{{$movie->getPoster()}}" alt="no poster"/>
+                                    </div>
                                 </a>
                             </td>
-                            <td class="pl-2 pr-2">
-                                <a href="{{route('movie-detail', ['imdbID' => $movie->getImdbID()])}}">
+                            <td>
+                                <a class="pt-2 pb-2 pl-2 pr-2 h-30 block" href="{{route('movie-detail', ['imdbID' => $movie->getImdbID()])}}">
                                     <p class="text-lg font-bold">{{ $movie->getTitle() }}</p>
                                     <p>{{ $movie->getYear() }}</p>
-                                    <p>toll</p>
+                                    <p class="flex mt-2">
+                                        @for($i = 0; $i < 10; $i++)
+                                            @if($i < $movie->getRating() ?? 0)
+                                                <flux:icon.star class="text-yellow-500"/>
+                                            @else
+                                                <flux:icon.star/>
+                                            @endif
+                                        @endfor
+                                    </p>
                                 </a>
                             </td>
                         </tr>

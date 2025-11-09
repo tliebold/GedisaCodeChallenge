@@ -4,7 +4,7 @@ namespace App\Dto;
 
 class MovieDetail extends Movie
 {
-    public \DateTime $releaseDate;
+    public ?\DateTime $releaseDate;
 
     public string $genre;
 
@@ -19,11 +19,15 @@ class MovieDetail extends Movie
     public static function fromArray(array $arr): static
     {
         $movieDetail = new self();
-        $movieDetail->setYear($arr['Poster']);
+        $movieDetail->setYear($arr['Year']);
         $movieDetail->setTitle($arr['Title']);
         $movieDetail->setPoster($arr['Poster']);
         $movieDetail->setImdbID($arr['imdbID']);
-        $movieDetail->setReleaseDate(new \DateTime($arr['Released']));
+        if (isset($arr['ReleaseDate'])) {
+            $movieDetail->setReleaseDate(new \DateTime($arr['Released']));
+        } else {
+            $movieDetail->setReleaseDate(null);
+        }
         $movieDetail->setGenre($arr['Genre']);
         $movieDetail->setWriter($arr['Writer']);
         $movieDetail->setActors($arr['Actors']);
@@ -33,12 +37,12 @@ class MovieDetail extends Movie
         return $movieDetail;
     }
 
-    public function getReleaseDate(): \DateTime
+    public function getReleaseDate(): ?\DateTime
     {
         return $this->releaseDate;
     }
 
-    public function setReleaseDate(\DateTime $releaseDate): void
+    public function setReleaseDate(?\DateTime $releaseDate): void
     {
         $this->releaseDate = $releaseDate;
     }

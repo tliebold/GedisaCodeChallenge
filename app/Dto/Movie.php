@@ -10,6 +10,7 @@ class Movie
 
     private string $poster;
     private mixed $imdbID;
+    private ?int $rating = null;
 
     public static function fromArray(array $arr): self
     {
@@ -60,5 +61,15 @@ class Movie
     public function setImdbID(mixed $imdbID): void
     {
         $this->imdbID = $imdbID;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?int $rating): void
+    {
+        $this->rating = $rating;
     }
 }

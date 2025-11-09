@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Services;
 
-use App\Dto\Movie;
 use App\Dto\MovieDetail;
 use App\Dto\MovieSearchResult;
 
-class MovieSearchModel
+class MovieSearchService
 {
     public function __construct(
         private readonly OmdbApiService $omdbApiService,

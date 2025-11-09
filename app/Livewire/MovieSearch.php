@@ -2,16 +2,16 @@
 
 namespace App\Livewire;
 
-use App\Dto\Movie;
 use App\Dto\MovieSearchResult;
-use App\Models\MovieSearchModel;
+use App\Models\MovieRating;
+use App\Services\MovieSearchService;
 use Livewire\Component;
 
 class MovieSearch extends Component
 {
-    private readonly MovieSearchModel $movieSearchModel;
+    private readonly MovieSearchService $movieSearchModel;
     public function boot(
-        MovieSearchModel $movieSearchModel
+        MovieSearchService $movieSearchModel
     ) {
         $this->movieSearchModel = $movieSearchModel;
     }
@@ -37,8 +37,18 @@ class MovieSearch extends Component
 
     public function searchMovie(): void
     {
-        $this->movieSearchResult = $this->movieSearchModel->search($this->movieTitle, $this->page);
-        $this->maxPage = (int) $this->movieSearchResult->getTotalResults() / 10 + 1;
+        $rowsPerPage = 10;
+        $searchResult = $this->movieSearchModel->search($this->movieTitle, $this->page);
+        foreach ($searchResult->getMovies() as $movie) {
+            $movieRating = MovieRating::query()->firstWhere('imdb_id', '=', $movie->getImdbID());
+            $movie->setRating($movieRating?->rating);
+        }
+        $this->movieSearchResult = $searchResult;
+        if ($this->movieSearchResult->getTotalResults() % $rowsPerPage === 0) {
+            $this->maxPage = (int) ($this->movieSearchResult->getTotalResults() / $rowsPerPage);
+        } else {
+            $this->maxPage = (int) ($this->movieSearchResult->getTotalResults() / $rowsPerPage) + 1;
+        }
     }
 
     public function movieDetail(string $imdbID): void
