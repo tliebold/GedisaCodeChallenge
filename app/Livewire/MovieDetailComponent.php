@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Dto\MovieDetail;
 use App\Models\MovieRating;
 use App\Services\MovieSearchService;
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
 class MovieDetailComponent extends Component
@@ -15,8 +16,7 @@ class MovieDetailComponent extends Component
 
     private ?MovieDetail $movieDetail = null;
 
-    public ?int $rating = null;
-
+    #[Reactive]
     private ?MovieRating $movieRating = null;
 
     public function setRating(int $rating): void
@@ -33,7 +33,6 @@ class MovieDetailComponent extends Component
             'rating' => $rating,
         ]);
         $this->movieRating->save();
-        $this->rating = $rating;
     }
 
     public function boot(MovieSearchService $movieSearchModel)
@@ -41,7 +40,6 @@ class MovieDetailComponent extends Component
         $this->searchModel = $movieSearchModel;
         $this->movieDetail = $this->searchModel->getDetail($this->imdbID);
         $this->movieRating = MovieRating::query()->where(['movie_ratings.imdb_id' => $this->imdbID])->first();
-        $this->rating = $this->movieRating?->rating;
     }
 
     public function mount(string $imdbID): void
@@ -53,6 +51,7 @@ class MovieDetailComponent extends Component
     {
         return view('livewire.movie-detail', [
             'movieDetail' => $this->movieDetail,
+            'movieRating' => $this->movieRating,
         ]);
     }
 }

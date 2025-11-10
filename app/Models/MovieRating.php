@@ -22,6 +22,5 @@ class MovieRating extends Model
         return Attribute::make(
             get: fn (mixed $value, array $attributes) => $attributes['imdb_id'],
         );
-
     }
 }

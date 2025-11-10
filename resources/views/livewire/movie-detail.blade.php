@@ -8,23 +8,12 @@
                     <tr>
                         <td colspan="2">
                             <flux:icon.loading wire:loading/>
-                            <div wire:loading.remove x-data="{ hoveredStar: $wire.rating, starCount: 10 }" class="flex" @mouseleave="hoveredStar = $wire.rating" x-init="$watch('$wire.rating', () => hoveredStar = $wire.rating)">
-                                <template x-for="i in hoveredStar" :key="i">
-                                    <p
-                                        wire:loading.remove
-                                        class="text-yellow-500"
-                                        @mouseenter="hoveredStar = i"
-                                        wire:click="setRating(i); hoveredStar = i"
-                                        x-html="i"
-                                    />
-                                </template>
-                                <template x-for="i in starCount - hoveredStar">
-                                    <p
-                                        wire:loading.remove
-                                        @mouseenter="hoveredStar = Math.min(hoveredStar + i, 10)"
-                                        x-html="i"
-                                    />
-                                </template>
+                            <div wire:loading.remove>
+                                <livewire:rating
+                                    :rating="$this->movieRating?->rating"
+                                    editable
+                                    @rating-changed="setRating($event.detail.rating)"
+                                />
                             </div>
                         </td>
                     </tr>

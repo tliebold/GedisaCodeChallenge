@@ -34,15 +34,7 @@
                             <a href="{{route('movie-detail', ['imdbID' => $movieRating->imdbID])}}">
                                 <p class="text-lg font-bold">{{ $movieRating->title }}</p>
                                 <p>{{ $movieRating->year }}</p>
-                                <p class="flex mt-2">
-                                    @for($i = 0; $i < 10; $i++)
-                                        @if($i < $movieRating->rating)
-                                            <flux:icon.star class="text-yellow-500"/>
-                                        @else
-                                            <flux:icon.star/>
-                                        @endif
-                                    @endfor
-                                </p>
+                                <livewire:rating :rating="$movieRating->rating"/>
                             </a>
                         </td>
                     </tr>
