@@ -12,6 +12,7 @@ class MovieRating extends Model
         'year',
         'poster',
         'rating',
+        'user_id',
     ];
 
     /**

@@ -31,6 +31,7 @@ class MovieDetailComponent extends Component
             'year' => $this->movieDetail->getYear(),
             'poster' => $this->movieDetail->getPoster(),
             'rating' => $rating,
+            'user_id' => auth()->id(),
         ]);
         $this->movieRating->save();
     }
@@ -39,7 +40,7 @@ class MovieDetailComponent extends Component
     {
         $this->searchModel = $movieSearchModel;
         $this->movieDetail = $this->searchModel->getDetail($this->imdbID);
-        $this->movieRating = MovieRating::query()->where(['movie_ratings.imdb_id' => $this->imdbID])->first();
+        $this->movieRating = MovieRating::query()->where(['movie_ratings.imdb_id' => $this->imdbID, 'movie_ratings.user_id' => auth()->id()])->first();
     }
 
     public function mount(string $imdbID): void

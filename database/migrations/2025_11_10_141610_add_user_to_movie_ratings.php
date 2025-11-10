@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('movie_ratings', function (Blueprint $table) {
-            $table->addColumn('string', 'user_id')->after('imdb_id');
+            $table->unsignedBigInteger('user_id')->after('imdb_id');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
