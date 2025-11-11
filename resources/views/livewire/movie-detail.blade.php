@@ -16,7 +16,7 @@
                                 />
                             </div>
                             <div class="font-bold">
-                                Average: {{$this->averageRating !== null ? $this->averageRating + 1 : 'N/A'}}
+                                Average: {{$this->averageRating !== null ? number_format((float) $this->averageRating + 1, 2) : 'N/A'}}
                             </div>
                         </td>
                     </tr>
