@@ -7,14 +7,14 @@
         <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
+            <a href="{{ route('movie-search') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
                 <x-app-logo />
             </a>
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>Movie search</flux:navlist.item>
-                    <flux:navlist.item icon="home" :href="route('movie-ratings-list')" :current="request()->routeIs('movie-ratings-list')" wire:navigate>Movie ratings</flux:navlist.item>
+                    <flux:navlist.item icon="magnifying-glass" :href="route('movie-search')" :current="request()->routeIs('dashboard')" wire:navigate>Movie search</flux:navlist.item>
+                    <flux:navlist.item icon="star" :href="route('movie-ratings-list')" :current="request()->routeIs('movie-ratings-list')" wire:navigate>Movie ratings</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

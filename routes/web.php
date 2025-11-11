@@ -12,7 +12,7 @@ use Laravel\Fortify\Features;
 
 Route::get('/', MovieSearch::class)
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('movie-search');
 
 Route::get('/movie-detail/{imdbID}', MovieDetailComponent::class)
     ->middleware(['auth', 'verified'])
