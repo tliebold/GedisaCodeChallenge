@@ -14,8 +14,8 @@ class MovieDetailService
 
     public function getDetail(string $imdbID): MovieDetail
     {
-        $searchResult = $this->omdbApiService->get(['i' => $imdbID, 'plot' => 'full']);
+        $detailResult = $this->omdbApiService->get(['i' => $imdbID, 'plot' => 'full']);
 
-        return MovieDetail::fromArray($searchResult);
+        return MovieDetail::fromArray($detailResult);
     }
 }

@@ -23,7 +23,7 @@ class MovieDetail extends Movie
         $movieDetail->setTitle($arr['Title']);
         $movieDetail->setPoster($arr['Poster']);
         $movieDetail->setImdbID($arr['imdbID']);
-        if (isset($arr['ReleaseDate'])) {
+        if (isset($arr['Released'])) {
             $movieDetail->setReleaseDate(new \DateTime($arr['Released']));
         } else {
             $movieDetail->setReleaseDate(null);
