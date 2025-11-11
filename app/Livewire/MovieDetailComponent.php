@@ -4,14 +4,13 @@ namespace App\Livewire;
 
 use App\Dto\MovieDetail;
 use App\Models\MovieRating;
+use App\Services\MovieDetailService;
 use App\Services\MovieSearchService;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
 class MovieDetailComponent extends Component
 {
-    private MovieSearchService $searchModel;
-
     public string $imdbID;
 
     private ?MovieDetail $movieDetail = null;
@@ -42,10 +41,9 @@ class MovieDetailComponent extends Component
         $this->averageRating = $this->movieRating?->getAverageRating();
     }
 
-    public function boot(MovieSearchService $movieSearchModel)
+    public function boot(MovieDetailService $movieDetailService)
     {
-        $this->searchModel = $movieSearchModel;
-        $this->movieDetail = $this->searchModel->getDetail($this->imdbID);
+        $this->movieDetail = $movieDetailService->getDetail($this->imdbID);
         $this->movieRating = MovieRating::query()->where([
             'imdb_id' => $this->imdbID,
             'user_id' => auth()->id(),
