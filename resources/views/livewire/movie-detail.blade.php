@@ -16,7 +16,7 @@
                                 />
                             </div>
                             <div>
-                                Average: {{$this->averageRating ?? 'N/A'}}
+                                Average: {{$this->averageRating !== null ? $this->averageRating + 1 : 'N/A'}}
                             </div>
                         </td>
                     </tr>

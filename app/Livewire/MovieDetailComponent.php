@@ -50,7 +50,7 @@ class MovieDetailComponent extends Component
             'imdb_id' => $this->imdbID,
             'user_id' => auth()->id(),
         ])->first();
-        $this->averageRating = $this->movieRating?->getAverageRating();
+        $this->averageRating = MovieRating::query()->where('imdb_id', '=', $this->imdbID)->avg('movie_ratings.rating');
     }
 
     public function mount(string $imdbID): void

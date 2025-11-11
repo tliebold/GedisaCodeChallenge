@@ -19,7 +19,6 @@ Route::get('/movie-detail/{imdbID}', MovieDetailComponent::class)
     ->name('movie-detail');
 
 Route::get('/movie-ratings/list', MovieRatingsList::class)
-    ->middleware(['auth', 'verified'])
     ->name('movie-ratings-list');
 
 Route::middleware(['auth'])->group(function () {
