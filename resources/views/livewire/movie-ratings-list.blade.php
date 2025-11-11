@@ -34,7 +34,7 @@
                             <a href="{{route('movie-detail', ['imdbID' => $movieRating->imdbID])}}">
                                 <p class="text-lg font-bold">{{ $movieRating->title }}</p>
                                 <p>{{ $movieRating->year }}</p>
-                                <livewire:rating :rating="$movieRating->rating"/>
+                                <livewire:rating :rating="$movieRating->getAverageRating()"/>
                             </a>
                         </td>
                     </tr>

@@ -15,6 +15,9 @@
                                     @rating-changed="setRating($event.detail.rating)"
                                 />
                             </div>
+                            <div>
+                                Average: {{$this->averageRating ?? 'N/A'}}
+                            </div>
                         </td>
                     </tr>
                     <tr>

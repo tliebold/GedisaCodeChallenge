@@ -25,7 +25,11 @@ class MovieRatingsList extends Component
         } else {
             $this->maxPage = (int) (MovieRating::query()->count() / $rowsPerPage) + 1;
         }
-        $this->movieRatings = MovieRating::query()->offset(($this->page - 1) * $rowsPerPage)->limit($rowsPerPage)->get();
+        $this->movieRatings = MovieRating::query()
+            ->groupBy(['movie_ratings.imdb_id'])
+            ->offset(($this->page - 1) * $rowsPerPage)
+            ->limit($rowsPerPage)
+            ->get();
     }
 
     public function mount(): void

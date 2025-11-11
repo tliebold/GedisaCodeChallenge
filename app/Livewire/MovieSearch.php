@@ -40,8 +40,8 @@ class MovieSearch extends Component
         $rowsPerPage = 10;
         $searchResult = $this->movieSearchModel->search($this->movieTitle, $this->page);
         foreach ($searchResult->getMovies() as $movie) {
-            $movieRating = MovieRating::query()->firstWhere('imdb_id', '=', $movie->getImdbID());
-            $movie->setRating($movieRating?->rating);
+            $rating = MovieRating::query()->firstWhere('imdb_id', '=', $movie->getImdbID());
+            $movie->setRating($rating?->getAverageRating());
         }
         $this->movieSearchResult = $searchResult;
         if ($this->movieSearchResult->getTotalResults() % $rowsPerPage === 0) {

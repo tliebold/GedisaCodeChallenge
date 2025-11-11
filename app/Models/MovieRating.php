@@ -24,4 +24,9 @@ class MovieRating extends Model
             get: fn (mixed $value, array $attributes) => $attributes['imdb_id'],
         );
     }
+
+    public function getAverageRating(): float
+    {
+        return self::query()->where('imdb_id', '=', $this->imdbID)->avg('movie_ratings.rating');
+    }
 }

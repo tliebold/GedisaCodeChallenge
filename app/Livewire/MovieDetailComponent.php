@@ -16,12 +16,17 @@ class MovieDetailComponent extends Component
 
     private ?MovieDetail $movieDetail = null;
 
+    public ?float $averageRating = null;
+
     #[Reactive]
     private ?MovieRating $movieRating = null;
 
     public function setRating(int $rating): void
     {
-        $this->movieRating = MovieRating::query()->where(['imdb_id' => $this->imdbID])->first();
+        $this->movieRating = MovieRating::query()->where([
+            'imdb_id' => $this->imdbID,
+            'user_id' => auth()->id(),
+        ])->first();
         if ($this->movieRating === null) {
             $this->movieRating = new MovieRating();
             $this->movieRating->imdb_id = $this->imdbID;
@@ -34,13 +39,18 @@ class MovieDetailComponent extends Component
             'user_id' => auth()->id(),
         ]);
         $this->movieRating->save();
+        $this->averageRating = $this->movieRating?->getAverageRating();
     }
 
     public function boot(MovieSearchService $movieSearchModel)
     {
         $this->searchModel = $movieSearchModel;
         $this->movieDetail = $this->searchModel->getDetail($this->imdbID);
-        $this->movieRating = MovieRating::query()->where(['movie_ratings.imdb_id' => $this->imdbID, 'movie_ratings.user_id' => auth()->id()])->first();
+        $this->movieRating = MovieRating::query()->where([
+            'imdb_id' => $this->imdbID,
+            'user_id' => auth()->id(),
+        ])->first();
+        $this->averageRating = $this->movieRating?->getAverageRating();
     }
 
     public function mount(string $imdbID): void
