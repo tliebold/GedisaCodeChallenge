@@ -1,7 +1,7 @@
 <div>
     <p class="text-xl font-bold">{{$this->movieDetail->getTitle()}}</p>
     <div class="mt-5">
-        <div class="flex flex flex-row gap-5">
+        <div class="flex flex-row gap-5">
             <img class="max-h-100 max-w-70" src="{{$this->movieDetail->getPoster()}}" alt="no poster"/>
             <div>
                 <table>
