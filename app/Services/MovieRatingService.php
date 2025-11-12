@@ -43,11 +43,11 @@ class MovieRatingService
     private function validateRating(int $rating): void
     {
         if ($rating > $this->maxRating) {
-            throw new \InvalidArgumentException('Maximum rating is 9.');
+            throw new MaxRatingExceededException(sprintf('Maximum rating is 9. (given: %s)', $rating));
         }
 
         if ($rating < $this->minRating) {
-            throw new \InvalidArgumentException('Minimum rating is 0.');
+            throw new MinRatingExceededException(sprintf('Minimum rating is 0. (given: %s)', $rating));
         }
     }
 }
