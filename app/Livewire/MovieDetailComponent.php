@@ -24,7 +24,11 @@ class MovieDetailComponent extends Component
 
     public function setRating(int $rating): void
     {
-        $this->movieRatingService->setRating($this->movieDetail, $rating, auth()->user());
+        try {
+            $this->movieRating = $this->movieRatingService->setRating($this->movieDetail, $rating, auth()->user());
+        } catch (\Throwable $e) {
+            $this->addError($e::class, $e->getMessage());
+        }
         $this->averageRating = $this->movieRating?->getAverageRating();
     }
 

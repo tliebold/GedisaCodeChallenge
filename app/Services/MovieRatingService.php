@@ -11,7 +11,7 @@ class MovieRatingService
     private int $minRating = 0;
     private int $maxRating = 9;
 
-    public function setRating(MovieDetail $movieDetail, int $rating, User $user): void
+    public function setRating(MovieDetail $movieDetail, int $rating, User $user): MovieRating
     {
         $this->validateRating($rating);
 
@@ -31,6 +31,8 @@ class MovieRatingService
             'user_id' => $user->id,
         ]);
         $movieRating->save();
+
+        return $movieRating;
     }
 
     public function getAverageRating(string $imdbID): ?float
