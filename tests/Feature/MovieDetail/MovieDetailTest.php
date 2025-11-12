@@ -5,6 +5,7 @@ namespace MovieDetail;
 use App\Dto\MovieDetail;
 use App\Livewire\MovieDetailComponent;
 use App\Models\MovieRating;
+use App\Services\MaxRatingExceededException;
 use App\Services\MovieDetailService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -45,6 +46,26 @@ class MovieDetailTest extends TestCase
         $movieRating = MovieRating::query()->where('movie_ratings.imdb_id', '=', 'tt0000000')->first();
         $this->assertNotNull($movieRating);
         $this->assertEquals(5, $movieRating->rating);
+    }
+
+    public function test_set_movie_rating_greater_than_max(): void
+    {
+        $this->mockMovieDetailService();
+        $this->actAsAuthenticatedUser();
+
+        $component = Livewire::test(MovieDetailComponent::class, ['imdbID' => 'tt0000000']);
+        $component->call('setRating', 10);
+        $component->assertHasErrors([MaxRatingExceededException::class]);
+    }
+
+    public function test_set_movie_rating_less_than_zero(): void
+    {
+        $this->mockMovieDetailService();
+        $this->actAsAuthenticatedUser();
+
+        $component = Livewire::test(MovieDetailComponent::class, ['imdbID' => 'tt0000000']);
+        $component->call('setRating', 10);
+        $component->assertHasErrors([MaxRatingExceededException::class]);
     }
 
     private function mockMovieDetailService(): void
