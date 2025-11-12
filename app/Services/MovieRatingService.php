@@ -33,7 +33,7 @@ class MovieRatingService
         $movieRating->save();
     }
 
-    public function getAverageRating(string $imdbID): float
+    public function getAverageRating(string $imdbID): ?float
     {
         return MovieRating::query()->where('imdb_id', '=', $imdbID)->avg('movie_ratings.rating');
     }
