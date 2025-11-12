@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Dto\MovieDetail;
 use App\Models\MovieRating;
 use App\Services\MovieDetailService;
+use App\Services\MovieRatingService;
 use App\Services\MovieSearchService;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
@@ -19,36 +20,24 @@ class MovieDetailComponent extends Component
 
     #[Reactive]
     private ?MovieRating $movieRating = null;
+    private MovieRatingService $movieRatingService;
 
     public function setRating(int $rating): void
     {
-        $this->movieRating = MovieRating::query()->where([
-            'imdb_id' => $this->imdbID,
-            'user_id' => auth()->id(),
-        ])->first();
-        if ($this->movieRating === null) {
-            $this->movieRating = new MovieRating();
-            $this->movieRating->imdb_id = $this->imdbID;
-        }
-        $this->movieRating->fill([
-            'title' => $this->movieDetail->getTitle(),
-            'year' => $this->movieDetail->getYear(),
-            'poster' => $this->movieDetail->getPoster(),
-            'rating' => $rating,
-            'user_id' => auth()->id(),
-        ]);
-        $this->movieRating->save();
+        $this->movieRatingService->setRating($this->movieDetail, $rating, auth()->user());
         $this->averageRating = $this->movieRating?->getAverageRating();
     }
 
-    public function boot(MovieDetailService $movieDetailService)
+    public function boot(MovieDetailService $movieDetailService, MovieRatingService $movieRatingService)
     {
+        $this->movieRatingService = $movieRatingService;
+
         $this->movieDetail = $movieDetailService->getDetail($this->imdbID);
         $this->movieRating = MovieRating::query()->where([
             'imdb_id' => $this->imdbID,
             'user_id' => auth()->id(),
         ])->first();
-        $this->averageRating = MovieRating::query()->where('imdb_id', '=', $this->imdbID)->avg('movie_ratings.rating');
+        $this->averageRating = $this->movieRatingService->getAverageRating($this->imdbID);
     }
 
     public function mount(string $imdbID): void
